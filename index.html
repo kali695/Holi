@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎨 Holi Shopping 2026 - Celebrate with Colors! 🎉</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="background">
+    <div class="splash" id="splash1"></div>
+    <div class="splash" id="splash2"></div>
+    <div class="splash" id="splash3"></div>
+    <div class="splash" id="splash4"></div>
+</div>
+
+<!-- Navigation -->
+<header class="navbar">
+    <div class="nav-container">
+        <div class="logo">🎨 HOLI SHOP 2026</div>
+        <div class="nav-right">
+            <a href="game.html" class="btn-admin" title="Khatarnak Game">🎮</a>
+            <a href="admin.html" class="btn-admin" title="Admin Panel">⚙️</a>
+            <div class="user-info" id="userInfo" style="display: none;">
+                <span id="userName" class="user-name">👤 Guest</span>
+                <button class="btn-logout" id="logoutBtn">Logout</button>
+            </div>
+            <button class="btn-login" id="loginBtn" style="display: none;">Login</button>
+            <div class="cart-icon" id="cartIcon">
+                <span class="cart-count" id="cartCount">0</span>
+                🛒
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Main Content -->
+<main class="container">
+    <div class="hero">
+        <h1>🎉 Happy Holi 2026! 🎨</h1>
+        <p>Celebrate the Festival of Colors! | Shop Festive Gifts, Colors & Joy!</p>
+    </div>
+
+    <!-- Products Section -->
+    <section class="products-section">
+        <h2>🌈 Holi Shopping - Celebrate with Amazing Products! 🌈</h2>
+        <div class="products-grid" id="productsGrid"></div>
+    </section>
+
+    <!-- Facebook Ad Banner (Bottom) -->
+    <section class="facebook-ad-section">
+        <div class="facebook-ad-container">
+            <div class="facebook-ad-banner" id="facebookAdBottom">
+                <img src="https://via.placeholder.com/728x90?text=Facebook+Ad+Banner" alt="Sponsored Ad">
+                <small>Sponsored</small>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Cart Modal -->
+<div class="cart-modal" id="cartModal">
+    <div class="cart-content">
+        <div class="cart-header">
+            <h2>🛒 Your Cart</h2>
+            <button class="close-btn" id="closeCart">✕</button>
+        </div>
+        <div class="cart-items" id="cartItems"></div>
+        <div class="coupon-section">
+            <div class="coupon-input-group">
+                <input type="text" id="couponCode" placeholder="Enter coupon code (Try: HOLI2026, COLORS50)" class="coupon-input">
+                <button class="btn-apply-coupon" id="applyCouponBtn">Apply Coupon</button>
+            </div>
+            <div id="couponMessage" class="coupon-message"></div>
+        </div>
+        <div class="cart-total">
+            <div class="price-row">
+                <span>Subtotal:</span>
+                <span>₹<span id="subtotalPrice">0</span></span>
+            </div>
+            <div class="price-row" id="discountRow" style="display: none;">
+                <span>Discount:</span>
+                <span style="color: #4db6ac;">-₹<span id="discountPrice">0</span></span>
+            </div>
+            <div class="price-row total-row">
+                <strong>Total:</strong>
+                <strong>₹<span id="totalPrice">0</span></strong>
+            </div>
+        </div>
+        <div class="cart-actions">
+            <button class="btn btn-checkout" id="checkoutBtn">✓ Proceed to Checkout</button>
+            <button class="btn btn-continue" id="continueShopping">Continue Shopping</button>
+        </div>
+    </div>
+</div>
+
+<!-- Checkout Modal -->
+<div class="checkout-modal" id="checkoutModal">
+    <div class="checkout-content">
+        <div class="success-message">
+            <h1>🎉 Thank You! 🎉</h1>
+            <p>Happy Holi 2026!</p>
+            <p class="order-confirm">Your order has been confirmed. Get ready to celebrate the festival of colors! 🌈</p>
+            <button class="btn btn-back" id="backHome">← Back to Shopping</button>
+        </div>
+    </div>
+</div>
+
+<footer class="footer">Made with ❤️ by Copilot | Happy Holi 2026! 🎨</footer>
+
+<!-- Login Modal -->
+<div class="login-modal" id="loginModal">
+    <div class="login-content">
+        <button class="login-close" id="closeLogin">✕</button>
+        <div class="login-header">
+            <div class="login-title-emoji">🎨</div>
+            <h2>Welcome to Holi Shop!</h2>
+        </div>
+        
+        <!-- Step 1: Email Input -->
+        <form id="emailForm" class="login-form" style="display: block;">
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" placeholder="Enter your email" required>
+            </div>
+            <button type="submit" class="btn-login-submit">📧 Send OTP</button>
+            <div class="login-footer">
+                <p>We'll send an OTP to your email</p>
+            </div>
+        </form>
+
+        <!-- Step 2: OTP Verification -->
+        <form id="otpForm" class="login-form" style="display: none;">
+            <div class="otp-info">
+                <p id="otpEmailDisplay"></p>
+                <p class="otp-demo" id="otpDemoCode" style="font-weight: 700; color: #ff4081; margin: 10px 0; padding: 10px; background: #fff5f7; border-radius: 8px; display: none;">Demo OTP: <span id="otpCodeDisplay"></span></p>
+            </div>
+            <div class="form-group">
+                <label for="otp">Enter OTP (6 digits)</label>
+                <input type="text" id="otp" placeholder="000000" maxlength="6" required>
+            </div>
+            <button type="submit" class="btn-login-submit">🔓 Verify OTP</button>
+            <button type="button" class="btn-resend" id="resendOtpBtn">Resend OTP</button>
+            <div class="login-footer">
+                <p>Check your email for OTP</p>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

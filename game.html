@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎮 Holi Game 2026 - Khatarnak Game</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 3px solid #ff4081;
+            padding: 15px 30px;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ff4081, #e91e63);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .btn-logout {
+            background: linear-gradient(135deg, #ff4081, #e91e63);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .btn-logout:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(233, 30, 99, 0.4);
+        }
+
+        .username-display {
+            font-weight: 700;
+            color: #ff4081;
+            font-size: 1.1rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .game-header {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            border: 3px solid #ff4081;
+        }
+
+        .game-header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #ff4081, #e91e63);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+        }
+
+        .game-instructions {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            gap: 20px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            text-align: center;
+            flex: 1;
+            min-width: 150px;
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+        }
+
+        .game-area {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            border: 3px solid #ff4081;
+            margin-bottom: 30px;
+        }
+
+        .message {
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-weight: 700;
+            font-size: 1.05rem;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #28a745;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 2px solid #f5c6cb;
+        }
+
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .clickable-box {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            border: 4px solid #ff4081;
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 3rem;
+            font-weight: 700;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        .clickable-box:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 30px rgba(255, 64, 129, 0.4);
+        }
+
+        .clickable-box:active {
+            transform: scale(0.98);
+        }
+
+        .clickable-box.clicked-correct {
+            background: linear-gradient(135deg, #00d084, #00a86b);
+            border-color: #00d084;
+            animation: correctPulse 0.5s ease;
+        }
+
+        .clickable-box.clicked-wrong {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+            border-color: #ff6b6b;
+            animation: wrongShake 0.5s ease;
+        }
+
+        @keyframes correctPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes wrongShake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .game-controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .btn-start {
+            background: linear-gradient(135deg, #00d084, #00a86b);
+            color: white;
+            box-shadow: 0 8px 20px rgba(0, 208, 132, 0.3);
+        }
+
+        .btn-start:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(0, 208, 132, 0.5);
+        }
+
+        .btn-reset {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+            color: white;
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.3);
+        }
+
+        .btn-reset:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(255, 107, 107, 0.5);
+        }
+
+        .login-modal {
+            display: flex;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .login-modal.hidden {
+            display: none;
+        }
+
+        .login-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            border: 3px solid #ff4081;
+            max-width: 400px;
+            width: 95%;
+            animation: slideUp 0.4s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .login-title {
+            font-size: 2rem;
+            color: #ff4081;
+            margin-bottom: 25px;
+            text-align: center;
+            font-weight: 800;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #ff4081;
+            box-shadow: 0 0 0 4px rgba(255, 64, 129, 0.1);
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #ff4081, #e91e63);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 1.05rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(233, 30, 99, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .game-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .stats-container {
+                flex-direction: column;
+            }
+
+            .stat-box {
+                min-width: unset;
+            }
+
+            .game-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .clickable-box {
+                padding: 30px;
+                font-size: 2rem;
+            }
+        }
+
+        .rank-display {
+            text-align: center;
+            background: linear-gradient(135deg, #ff4081, #e91e63);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+            font-size: 1.3rem;
+            font-weight: 800;
+            box-shadow: 0 10px 30px rgba(233, 30, 99, 0.3);
+        }
+
+        .timer-box {
+            text-align: center;
+            background: #fff3cd;
+            color: #856404;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-size: 1.2rem;
+            font-weight: 700;
+            border: 2px solid #ffc107;
+        }
+
+        .timer-value {
+            font-size: 2.5rem;
+            color: #ff4081;
+            font-weight: 900;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Login Modal -->
+<div class="login-modal" id="loginModal">
+    <div class="login-content">
+        <h2 class="login-title">🎮 Play Game</h2>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="username">Enter Your Name:</label>
+                <input type="text" id="username" placeholder="Example: Khatarnak" required autofocus>
+            </div>
+            <button type="submit" class="btn-login">Start Playing 🎨</button>
+        </form>
+    </div>
+</div>
+
+<!-- Navigation -->
+<nav class="navbar">
+    <div class="nav-container">
+        <div class="logo">🎮 Khatarnak Game</div>
+        <div class="nav-right">
+            <span class="username-display" id="userDisplay">👤 Player</span>
+            <button class="btn-logout" id="logoutBtn" style="display: none;">Logout</button>
+        </div>
+    </div>
+</nav>
+
+<!-- Main Container -->
+<div class="container">
+    <!-- Game Header -->
+    <div class="game-header">
+        <h1>🎨 Holi Color Clicking Game 🎨</h1>
+        <p class="game-instructions">
+            Click on the colored boxes that appear! Green boxes = Correct click (+10 points), Red boxes = Wrong click. Higher score = Higher rank! 🏆
+        </p>
+        <div class="stats-container">
+            <div class="stat-box">
+                <div class="stat-label">Correct Clicks</div>
+                <div class="stat-value" id="correctCount">0</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Wrong Clicks</div>
+                <div class="stat-value" id="wrongCount">0</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Score</div>
+                <div class="stat-value" id="scoreDisplay">0</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Area -->
+    <div class="game-area">
+        <div id="messageBox"></div>
+        <div id="timerBox"></div>
+        <div id="rankBox"></div>
+        
+        <div class="game-grid" id="gameGrid">
+            <!-- Game boxes will be generated here -->
+        </div>
+
+        <div class="game-controls">
+            <button class="btn btn-start" id="startBtn">Start Game 🎮</button>
+            <button class="btn btn-reset" id="resetBtn">Reset Game 🔄</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    let gameState = {
+        isPlaying: false,
+        currentUser: null,
+        correctClicks: 0,
+        wrongClicks: 0,
+        totalScore: 0,
+        currentCorrectIndex: null,
+        gameInProgress: false,
+        isFrozen: false
+    };
+
+    // Elements
+    const loginModal = document.getElementById('loginModal');
+    const loginForm = document.getElementById('loginForm');
+    const usernameInput = document.getElementById('username');
+    const userDisplay = document.getElementById('userDisplay');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const gameGrid = document.getElementById('gameGrid');
+    const startBtn = document.getElementById('startBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const messageBox = document.getElementById('messageBox');
+    const timerBox = document.getElementById('timerBox');
+    const rankBox = document.getElementById('rankBox');
+    const correctCountEl = document.getElementById('correctCount');
+    const wrongCountEl = document.getElementById('wrongCount');
+    const scoreDisplayEl = document.getElementById('scoreDisplay');
+
+    // Restore user from session
+    const savedUser = sessionStorage.getItem('gameUser');
+    if (savedUser) {
+        gameState.currentUser = savedUser;
+        userDisplay.textContent = `👤 ${savedUser}`;
+        loginModal.classList.add('hidden');
+        logoutBtn.style.display = 'block';
+    } else {
+        loginModal.classList.remove('hidden');
+    }
+
+    // Login Form
+    loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const username = usernameInput.value.trim();
+        if (username) {
+            gameState.currentUser = username;
+            sessionStorage.setItem('gameUser', username);
+            userDisplay.textContent = `👤 ${username}`;
+            loginModal.classList.add('hidden');
+            logoutBtn.style.display = 'block';
+            showMessage(`Welcome ${username}! Ready to play? 🎮`, 'success');
+            createGameGrid();
+        }
+    });
+
+    // Logout
+    logoutBtn.addEventListener('click', () => {
+        gameState.currentUser = null;
+        sessionStorage.removeItem('gameUser');
+        userDisplay.textContent = '👤 Player';
+        logoutBtn.style.display = 'none';
+        loginModal.classList.remove('hidden');
+        resetGame();
+    });
+
+    // Get player rank based on score
+    function getRank() {
+        if (gameState.totalScore >= 200) {
+            return { name: '⭐ KHATARNAK ⭐', emoji: '🔥', color: '#ff4081' };
+        } else if (gameState.totalScore >= 101) {
+            return { name: '🏅 EXPERT 🏅', emoji: '💪', color: '#ff6b6b' };
+        } else if (gameState.totalScore >= 51) {
+            return { name: '🌟 INTERMEDIATE 🌟', emoji: '👍', color: '#ffd700' };
+        } else {
+            return { name: '🌱 BEGINNER 🌱', emoji: '⭐', color: '#4db6ac' };
+        }
+    }
+
+    // Show 60-second timer and then show rank
+    function showTimer() {
+        let timeLeft = 60;
+        timerBox.innerHTML = `<div class="timer-box">⏱️ Wait <span class="timer-value">${timeLeft}</span>s before next play!</div>`;
+        rankBox.innerHTML = '';
+        
+        const timerInterval = setInterval(() => {
+            timeLeft--;
+            timerBox.innerHTML = `<div class="timer-box">⏱️ Wait <span class="timer-value">${timeLeft}</span>s before next play!</div>`;
+            
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                gameState.isFrozen = false;
+                timerBox.innerHTML = '';
+                
+                // Show rank AFTER freeze ends
+                const rank = getRank();
+                rankBox.innerHTML = `<div class="rank-display">${rank.emoji} Your Rank: ${rank.name}<br>Total Score: ${gameState.totalScore} points 💯</div>`;
+                
+                // Wait 3 seconds then clear rank and restart game
+                setTimeout(() => {
+                    rankBox.innerHTML = '';
+                    if (gameState.isPlaying) {
+                        createGameGrid();
+                        gameState.gameInProgress = false;
+                    }
+                }, 3000);
+            }
+        }, 1000);
+    }
+
+    // Show message
+    function showMessage(text, type) {
+        messageBox.innerHTML = `<div class="message ${type}">${text}</div>`;
+        setTimeout(() => {
+            messageBox.innerHTML = '';
+        }, 4000);
+    }
+
+    // Create game grid
+    function createGameGrid() {
+        gameGrid.innerHTML = '';
+        const boxes = ['💛', '💛', '💛', '💛', '💛', '💛'];
+        gameState.currentCorrectIndex = Math.floor(Math.random() * 6);
+
+        boxes.forEach((emoji, index) => {
+            const box = document.createElement('div');
+            box.className = 'clickable-box';
+            box.textContent = emoji;
+            box.setAttribute('data-index', index);
+            box.style.cursor = gameState.isPlaying ? 'pointer' : 'not-allowed';
+            
+            box.addEventListener('click', () => handleBoxClick(index));
+            gameGrid.appendChild(box);
+        });
+    }
+
+    // Handle box click
+    function handleBoxClick(index) {
+        if (!gameState.isPlaying || gameState.gameInProgress || gameState.isFrozen) {
+            return;
+        }
+
+        gameState.gameInProgress = true;
+        const box = document.querySelector(`[data-index="${index}"]`);
+        
+        if (index === gameState.currentCorrectIndex) {
+            // Correct click
+            gameState.correctClicks++;
+            gameState.totalScore += 10;
+            box.classList.add('clicked-correct');
+            box.textContent = '✅';
+            showMessage('✅ Correct! +10 points!', 'success');
+            
+            // New round after 1 second
+            setTimeout(() => {
+                createGameGrid();
+                gameState.gameInProgress = false;
+            }, 1000);
+        } else {
+            // Wrong click
+            gameState.wrongClicks++;
+            gameState.totalScore -= 5; // Deduct 5 points
+            if (gameState.totalScore < 0) gameState.totalScore = 0; // Don't go below 0
+            box.classList.add('clicked-wrong');
+            box.textContent = '❌';
+            showMessage('❌ Wrong! -5 points! Frozen for 60 seconds.', 'error');
+            
+            // Freeze game for 60 seconds
+            gameState.isFrozen = true;
+            gameGrid.innerHTML = '';
+            showTimer();
+        }
+
+        updateDisplay();
+    }
+
+    // Start Game
+    startBtn.addEventListener('click', () => {
+        if (!gameState.currentUser) {
+            showMessage('Please login first! 🔐', 'error');
+            loginModal.classList.remove('hidden');
+            return;
+        }
+        gameState.isPlaying = true;
+        gameState.correctClicks = 0;
+        gameState.wrongClicks = 0;
+        gameState.totalScore = 0;
+        gameState.isFrozen = false;
+        gameState.gameInProgress = false;
+        
+        // Clear all previous displays
+        timerBox.innerHTML = '';
+        rankBox.innerHTML = '';
+        messageBox.innerHTML = '';
+        
+        updateDisplay();
+        createGameGrid();
+        showMessage('Game started! Click on the boxes! 🎮', 'success');
+    });
+
+    // Reset Game
+    resetBtn.addEventListener('click', resetGame);
+
+    function resetGame() {
+        gameState.isPlaying = false;
+        gameState.correctClicks = 0;
+        gameState.wrongClicks = 0;
+        gameState.totalScore = 0;
+        gameState.gameInProgress = false;
+        gameState.isFrozen = false;
+        gameGrid.innerHTML = '';
+        timerBox.innerHTML = '';
+        rankBox.innerHTML = '';
+        updateDisplay();
+        showMessage('Game reset! Click Start to play again. 🔄', 'success');
+    }
+
+    // Update display with rank
+    function updateDisplay() {
+        correctCountEl.textContent = gameState.correctClicks;
+        wrongCountEl.textContent = gameState.wrongClicks;
+        scoreDisplayEl.textContent = gameState.totalScore;
+    }
+
+    // Initialize
+    updateDisplay();
+</script>
+
+</body>
+</html>
